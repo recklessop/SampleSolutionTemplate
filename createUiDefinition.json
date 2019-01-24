@@ -1,0 +1,211 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/0.1.2-preview/CreateUIDefinition.MultiVm.json#",
+    "handler": "Microsoft.Compute.MultiVm",
+    "version": "0.1.2-preview",
+    "parameters": {
+        "basics": [],
+        "steps": [
+            {
+                "name": "zertoZCAVMConfiguration",
+                "label": "Virtual Machine",
+                "subLabel": {
+                    "preValidation": "Configure the Zerto virtual machine for the ZCA",
+                    "postValidation": "Done"
+                },
+                "bladeTitle": "Zerto virtual machine configuration",
+                "elements": [
+                    {
+                        "name": "zertoVmName",
+                        "type": "Microsoft.Common.TextBox",
+                        "label": "Virtual Machine Name",
+                        "defaultValue": "zca-vm",
+                        "toolTip": "Resource and computer name for the Zerto virtual machine",
+                        "constraints": {
+                            "required": true
+                        }
+                    },
+                    {
+                        "name": "zertoVmSize",
+                        "type": "Microsoft.Compute.SizeSelector",
+                        "label": "Virtual Machine Size",
+                        "toolTip": "The size of the Zerto virtual machine.",
+                        "recommendedSizes": [
+                            "Standard_DS13_v2"
+                        ],
+                        "constraints": {
+                            "allowedSizes": [
+                                "Standard_DS5_v2",
+                                "Standard_DS13",
+                                "Standard_DS13_v2",
+                                "Standard_DS14",
+                                "Standard_DS14_v2"
+                            ]
+                        },
+                        "osPlatform": "Linux",
+                        "count": 1
+                    },
+                    {
+                        "name": "storageAccount",
+                        "type": "Microsoft.Storage.StorageAccountSelector",
+                        "label": "Diagnostic storage account",
+                        "toolTip": "Storage Account for the Virtual Machine's diagnostics",
+                        "defaultValue": {
+                            "type": "Standard_LRS"                            
+                        },
+                        "constraints": {
+                            "allowedTypes": [
+                                "Standard_LRS",
+                                "Standard_ZRS",
+                                "Standard_GRS",
+                                "Standard_RAGRS",
+                                "Premium_LRS"
+                            ]
+                        }
+                    },
+
+                    {
+                        "name": "username",
+                        "type": "Microsoft.Compute.UserNameTextBox",
+                        "label": "Username",
+                        "toolTip": "Admin username for all of the deployed virtual machines.",
+                        "osPlatform": "Linux",
+                        "constraints": {
+                          "required": true,
+                          "regex": "^[a-z][a-z0-9-]{1,15}$",
+                          "validationMessage": "Name should be between 1 and 15 characters in length"
+                        }
+                    }, 
+                    {
+                        "name": "password",
+                        "type": "Microsoft.Compute.CredentialsCombo",
+                        "label": {
+                          "authenticationType": "Authentication type",
+                          "password": "Password",
+                          "confirmPassword": "Confirm password",
+                          "sshPublicKey": "SSH public key"
+                        },
+                        "toolTip": {
+                          "authenticationType": "",
+                          "password": "VM password must be 12 characters and have 3 of the following: 1 lower case character, 1 upper case character, 1 number, and 1 special character.",
+                          "sshPublicKey": ""
+                        },
+                        "constraints": {
+                          "required": true
+                        },
+                        "options": {
+                          "hideConfirmation": false
+                        },
+                        "osPlatform": "Linux"
+                    }
+                ]
+            },
+            {
+                "name": "zertoZCANetworkConfig",
+                "label": "Virtual Network",
+                "subLabel": {
+                    "preValidation": "Configure the Zerto virtual network",
+                    "postValidation": "Done"
+                },
+                "bladeTitle": "Zerto Virtual Network configuration",
+                "elements": [
+                    {
+                        "name": "zertoVnet",
+                        "type": "Microsoft.Network.VirtualNetworkCombo",
+                        "label": {
+                            "virtualNetwork": "Virtual network",
+                            "subnets": "Subnets"
+                        },
+                        "toolTip": {
+                            "virtualNetwork": "Virtual network where Zerto virtual machine will be deployed",
+                            "subnets": "Subnets Tooltip"
+                        },
+                        "defaultValue": {
+                            "name": "zerto-vnet",
+                            "addressPrefixSize": "/16"
+                        },
+                        "constraints": {
+                            "minAddressPrefixSize": "/29"
+                        },
+                        "options": {
+                            "hideExisting": false
+                        },
+                        "subnets": {
+                            "subnet1": {
+                                "label": "Subnet",
+                                "defaultValue": {
+                                    "name": "zerto-subnet",
+                                    "addressPrefixSize": "/24"
+                                },
+                                "constraints": {
+                                    "minAddressPrefixSize": "/29",
+                                    "minAddressCount": 1,
+                                    "requireContiguousAddresses": true
+                                }
+                            }
+                        },
+                        "visible": true
+                    }
+                 
+                ]
+            },
+            {
+                "name": "zertoZCAIpConfig",
+                "label": "Public IP Address",
+                "subLabel": {
+                    "preValidation": "Configure the Zerto Public IP",
+                    "postValidation": "Done"
+                },
+                "bladeTitle": "Zerto Public IP Address configuration",
+                "elements": [
+                    {
+                        "name": "zertoPublicIpAddress",
+                        "type": "Microsoft.Network.PublicIpAddressCombo",
+                        "label": {
+                            "publicIpAddress": "Public IP address",
+                            "domainNameLabel": "Domain name label"
+                        },
+                        "toolTip": {
+                            "publicIpAddress": "Public IP Address",
+                            "domainNameLabel": "Domain Name Label"
+                        },
+                        "defaultValue": {
+                            "publicIpAddressName": "zerto-pip",
+                            "domainNameLabel": ""
+                        },
+                        "constraints": {
+                            "required": {
+                                "domainNameLabel": true
+                            }
+                        },
+                        "options": {
+                            "hideNone": "[equals(steps('zertoZCANetworkConfig').zertoVnet.newOrExisting,'new')]",
+                            "hideDomainNameLabel": false,
+                            "hideExisting": false
+                        },
+                        "visible": true
+                    }
+                ]
+            }
+        ],
+        "outputs": {
+            "storageAccountType": "[steps('zertoZCAVMConfiguration').storageAccount]",
+            "location": "[location()]",
+            "vmName": "[steps('zertoZCAVMConfiguration').zertoVmName]",
+            "vmSize": "[steps('zertoZCAVMConfiguration').zertoVmSize]",
+            "authType": "[steps('zertoZCAVMConfiguration').authenticationType]",
+            "vmAdminUserName": "[steps('zertoZCAVMConfiguration').username]",
+            "vmAdminPassword": "[steps('zertoZCAVMConfiguration').password]",
+            "adminSSHKey": "[steps('zertoZCAVMConfiguration').sshPublicKey]",
+            "virtualNetworkName": "[steps('zertoZCANetworkConfig').zertoVnet.name]",
+            "virtualNetworkResourceGroup": "[steps('zertoZCANetworkConfig').zertoVnet.resourceGroup]",
+            "virtualNetworkAddressPrefix": "[steps('zertoZCANetworkConfig').zertoVnet.addressPrefix]",
+            "virtualNetworkNewOrExisting": "[steps('zertoZCANetworkConfig').zertoVnet.newOrExisting]",
+            "subnetName": "[steps('zertoZCANetworkConfig').zertoVnet.subnets.subnet1.name]",
+            "subnetPrefix": "[steps('zertoZCANetworkConfig').zertoVnet.subnets.subnet1.addressPrefix]",
+            "dnsNameForPublicIP": "[steps('zertoZCAIpConfig').zertoPublicIpAddress.name]",
+            "publicIpResourceGroup": "[steps('zertoZCAIpConfig').zertoPublicIpAddress.resourceGroup]",
+            "publicIpDnsPrefix": "[steps('zertoZCAIpConfig').zertoPublicIpAddress.domainNameLabel]",
+            "publicIpNewOrExistingOrNone": "[steps('zertoZCAIpConfig').zertoPublicIpAddress.newOrExistingOrNone]"
+        }
+    }
+}
