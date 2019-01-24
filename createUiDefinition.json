@@ -189,23 +189,10 @@
         ],
         "outputs": {
             "storageAccountType": "[steps('zertoZCAVMConfiguration').storageAccount]",
-            "location": "[location()]",
-            "vmName": "[steps('zertoZCAVMConfiguration').zertoVmName]",
-            "vmSize": "[steps('zertoZCAVMConfiguration').zertoVmSize]",
-            "authType": "[steps('zertoZCAVMConfiguration').authenticationType]",
             "vmAdminUserName": "[steps('zertoZCAVMConfiguration').username]",
             "vmAdminPassword": "[steps('zertoZCAVMConfiguration').password]",
-            "adminSSHKey": "[steps('zertoZCAVMConfiguration').sshPublicKey]",
-            "virtualNetworkName": "[steps('zertoZCANetworkConfig').zertoVnet.name]",
-            "virtualNetworkResourceGroup": "[steps('zertoZCANetworkConfig').zertoVnet.resourceGroup]",
-            "virtualNetworkAddressPrefix": "[steps('zertoZCANetworkConfig').zertoVnet.addressPrefix]",
-            "virtualNetworkNewOrExisting": "[steps('zertoZCANetworkConfig').zertoVnet.newOrExisting]",
-            "subnetName": "[steps('zertoZCANetworkConfig').zertoVnet.subnets.subnet1.name]",
-            "subnetPrefix": "[steps('zertoZCANetworkConfig').zertoVnet.subnets.subnet1.addressPrefix]",
             "dnsNameForPublicIP": "[steps('zertoZCAIpConfig').zertoPublicIpAddress.name]",
-            "publicIpResourceGroup": "[steps('zertoZCAIpConfig').zertoPublicIpAddress.resourceGroup]",
-            "publicIpDnsPrefix": "[steps('zertoZCAIpConfig').zertoPublicIpAddress.domainNameLabel]",
-            "publicIpNewOrExistingOrNone": "[steps('zertoZCAIpConfig').zertoPublicIpAddress.newOrExistingOrNone]"
+            "location": "[location()]"
         }
     }
 }
