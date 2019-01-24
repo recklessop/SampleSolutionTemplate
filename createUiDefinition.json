@@ -192,7 +192,8 @@
             "vmAdminUserName": "[steps('zertoZCAVMConfiguration').username]",
             "vmAdminPassword": "[steps('zertoZCAVMConfiguration').password]",
             "dnsNameForPublicIP": "[steps('zertoZCAIpConfig').zertoPublicIpAddress.name]",
-            "location": "[location()]"
+            "location": "[location()]",
+            "sshPublicKey": "[steps('zertoZCAVMConfiguration').sshPublicKey]"
         }
     }
 }
