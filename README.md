@@ -1,0 +1,2 @@
+# SampleSolutionTemplate
+Sample Solution Template
