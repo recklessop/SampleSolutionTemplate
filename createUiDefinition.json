@@ -185,8 +185,8 @@
         ],
         "outputs": {            
             "storageAccountType": "[steps('zertoZCAVMConfiguration').storageAccount.type]",
-            "vmAdminUserName": "[steps('zertoZCAVMConfiguration').username]",
-            "vmAdminPassword": "[steps('zertoZCAVMConfiguration').password]",
+            "vmAdminUserName": "[steps('zertoZCAVMConfiguration').username.name]",
+            "vmAdminPassword": "[steps('zertoZCAVMConfiguration').password.password]",
             "dnsNameForPublicIP": "[steps('zertoZCAIpConfig').zertoPublicIpAddress.name]",
             "location": "[location()]"
         }
