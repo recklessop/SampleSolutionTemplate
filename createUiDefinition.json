@@ -41,7 +41,7 @@
                                 "Standard_DS14_v2"
                             ]
                         },
-                        "osPlatform": "Linux",
+                        "osPlatform": "Windows",
                         "count": 1
                     },
                     {
@@ -68,7 +68,7 @@
                         "type": "Microsoft.Compute.UserNameTextBox",
                         "label": "Username",
                         "toolTip": "Admin username for all of the deployed virtual machines.",
-                        "osPlatform": "Linux",
+                        "osPlatform": "Windows",
                         "constraints": {
                           "required": true,
                           "regex": "^[a-z][a-z0-9-]{1,15}$",
@@ -79,15 +79,11 @@
                         "name": "password",
                         "type": "Microsoft.Compute.CredentialsCombo",
                         "label": {
-                          "authenticationType": "Authentication type",
                           "password": "Password",
-                          "confirmPassword": "Confirm password",
-                          "sshPublicKey": "SSH public key"
+                          "confirmPassword": "Confirm password"
                         },
                         "toolTip": {
-                          "authenticationType": "",
-                          "password": "VM password must be 12 characters and have 3 of the following: 1 lower case character, 1 upper case character, 1 number, and 1 special character.",
-                          "sshPublicKey": ""
+                          "password": "VM password must be 12 characters and have 3 of the following: 1 lower case character, 1 upper case character, 1 number, and 1 special character."
                         },
                         "constraints": {
                           "required": true
@@ -95,7 +91,7 @@
                         "options": {
                           "hideConfirmation": false
                         },
-                        "osPlatform": "Linux"
+                        "osPlatform": "Windows"
                     }
                 ]
             },
@@ -192,8 +188,7 @@
             "vmAdminUserName": "[steps('zertoZCAVMConfiguration').username]",
             "vmAdminPassword": "[steps('zertoZCAVMConfiguration').password]",
             "dnsNameForPublicIP": "[steps('zertoZCAIpConfig').zertoPublicIpAddress.name]",
-            "location": "[location()]",
-            "sshPublicKey": "[steps('zertoZCAVMConfiguration').sshPublicKey]"
+            "location": "[location()]"
         }
     }
 }
