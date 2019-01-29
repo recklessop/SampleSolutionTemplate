@@ -84,7 +84,8 @@
         },
         "dependsOn": [],
         "tags": {
-          "displayName": "storageAccount"
+          "displayName": "storageAccount",
+          "Zerto": "pid-84d2edc4-86bd-439c-8373-e9f04e0f5ad2"
         },
         "kind": "Storage"
       },
@@ -95,7 +96,8 @@
         "apiVersion": "2016-03-30",
         "dependsOn": [],
         "tags": {
-          "displayName": "vnet"
+          "displayName": "vnet",
+          "Zerto": "pid-84d2edc4-86bd-439c-8373-e9f04e0f5ad2"
         },
         "properties": {
           "addressSpace": {
@@ -129,7 +131,8 @@
           "[resourceId('Microsoft.Network/publicIPAddresses', variables('pipName'))]"
         ],
         "tags": {
-          "displayName": "vmNic"
+          "displayName": "vmNic",
+          "Zerto": "pid-84d2edc4-86bd-439c-8373-e9f04e0f5ad2"
         },
         "properties": {
           "ipConfigurations": [
@@ -161,7 +164,8 @@
           "[resourceId('Microsoft.Network/networkInterfaces', variables('vmNicName'))]"
         ],
         "tags": {
-          "displayName": "vm"
+          "displayName": "vm",
+          "Zerto": "pid-84d2edc4-86bd-439c-8373-e9f04e0f5ad2"
         },
         "plan": {
           "name": "zerto65ga",
@@ -206,7 +210,8 @@
         "apiVersion": "2016-03-30",
         "dependsOn": [],
         "tags": {
-          "displayName": "pip"
+          "displayName": "pip",
+          "Zerto": "pid-84d2edc4-86bd-439c-8373-e9f04e0f5ad2"
         },
         "properties": {
           "publicIPAllocationMethod": "Dynamic",
